@@ -25,20 +25,20 @@ import (
 	"github.com/valyala/fastjson"
 )
 
-// const tokenURL = "https://uplb.115.com/3.0/gettoken.php"
-// const resumeURL = "https://uplb.115.com/3.0/resumeupload.php?isp=0&appid=0&appversion=%s&format=json&sig=%s"
-// downloadURL   = "https://webapi.115.com/files/download?pickcode=%s"
-// sampleInitURL = "https://uplb.115.com/3.0/sampleinitupload.php"
+// const tokenURL = "http://uplb.115.com/3.0/gettoken.php"
+// const resumeURL = "http://uplb.115.com/3.0/resumeupload.php?isp=0&appid=0&appversion=%s&format=json&sig=%s"
+// downloadURL   = "http://webapi.115.com/files/download?pickcode=%s"
+// sampleInitURL = "http://uplb.115.com/3.0/sampleinitupload.php"
 
 const (
-	infoURL      = "https://proapi.115.com/app/uploadinfo"
-	initURL      = "https://uplb.115.com/4.0/initupload.php?k_ec=%s"
-	getinfoURL   = "https://uplb.115.com/3.0/getuploadinfo.php"
-	listFileURL  = "https://webapi.115.com/files?aid=1&cid=%d&o=user_ptime&asc=0&offset=0&show_dir=0&limit=%d&natsort=1&format=json"
-	downloadURL  = "https://proapi.115.com/app/chrome/downurl"
-	orderURL     = "https://webapi.115.com/files/order"
-	createDirURL = "https://webapi.115.com/files/add"
-	searchURL    = "https://webapi.115.com/files/search?offset=0&limit=100000&aid=1&cid=%d&format=json"
+	infoURL      = "http://proapi.115.com/app/uploadinfo"
+	initURL      = "http://uplb.115.com/4.0/initupload.php?k_ec=%s"
+	getinfoURL   = "http://uplb.115.com/3.0/getuploadinfo.php"
+	listFileURL  = "http://webapi.115.com/files?aid=1&cid=%d&o=user_ptime&asc=0&offset=0&show_dir=0&limit=%d&natsort=1&format=json"
+	downloadURL  = "http://proapi.115.com/app/chrome/downurl"
+	orderURL     = "http://webapi.115.com/files/order"
+	createDirURL = "http://webapi.115.com/files/add"
+	searchURL    = "http://webapi.115.com/files/search?offset=0&limit=100000&aid=1&cid=%d&format=json"
 	appVer       = "30.5.1"
 	userAgent    = "Mozilla/5.0 115disk/" + appVer
 	endString    = "000000"
@@ -486,7 +486,7 @@ func initialize() (e error) {
 	err := getUserKey()
 	checkErr(err)
 
-	// HTTP代理，优先级 httpProxy > 设置文件 > http_proxy/https_proxy
+	// HTTP代理，优先级 httpProxy > 设置文件 > http_proxy/http_proxy
 	*httpProxy = strings.TrimSpace(*httpProxy)
 	if *httpProxy == "" {
 		*httpProxy = strings.TrimSpace(config.HTTPProxy)
@@ -511,7 +511,7 @@ func initialize() (e error) {
 		}
 	}
 
-	// OSS代理，优先级 ossProxy > 设置文件 > http_proxy > https_proxy
+	// OSS代理，优先级 ossProxy > 设置文件 > http_proxy > http_proxy
 	*ossProxy = strings.TrimSpace(*ossProxy)
 	if *ossProxy == "" {
 		*ossProxy = strings.TrimSpace(config.OSSProxy)
@@ -520,7 +520,7 @@ func initialize() (e error) {
 		*ossProxy = strings.TrimSpace(os.Getenv("http_proxy"))
 	}
 	if *ossProxy == "" {
-		*ossProxy = strings.TrimSpace(os.Getenv("https_proxy"))
+		*ossProxy = strings.TrimSpace(os.Getenv("http_proxy"))
 	}
 	if *ossProxy != "" {
 		proxyURL, err := url.Parse(*ossProxy)
